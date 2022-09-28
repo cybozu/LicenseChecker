@@ -18,28 +18,16 @@ jobs:
       - name: Show Xcode Version
         run: xcodebuild -version
 
-      - name: Run LicenseCheckerModuleTests
+      - name: Run Test
         run: |
-          xcodebuild clean test \
+          xcodebuild test \
           -scheme LicenseChecker \
           -destination "platform=macOS" \
-          -only-testing:LicenseCheckerModuleTests \
-          -resultBundlePath LicenseCheckerModuleTestsResult | \
-          xcpretty -c && exit ${PIPESTATUS[0]}
-
-      - name: Run LicenseCheckerTests
-        run: |
-          xcodebuild clean test \
-          -scheme LicenseChecker \
-          -destination "platform=macOS" \
-          -only-testing:LicenseCheckerTests \
-          -resultBundlePath LicenseCheckerTestsResult | \
+          -resultBundlePath TestsResult | \
           xcpretty -c && exit ${PIPESTATUS[0]}
 
       - name: Archive unit test results
         if: success() || failure()
         uses: kishikawakatsumi/xcresulttool@v1.6.0
         with:
-          path: |
-            LicenseCheckerModuleTestsResult.xcresult
-            LicenseCheckerTestsResult.xcresult
+          path: TestsResult.xcresult
