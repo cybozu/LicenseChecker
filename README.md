@@ -3,6 +3,13 @@
 LicenseChecker is a command line tool checking licenses of swift package libraries that your app depends on.  
 It can detect libraries that are not included in a whitelist specifying the license type or library name.
 
+[![Github issues](https://img.shields.io/github/issues/cybozu/LicenseChecker)](https://github.com/cybozu/LicenseChecker/issues)
+[![Github forks](https://img.shields.io/github/forks/cybozu/LicenseChecker)](https://github.com/cybozu/LicenseChecker/network/members)
+[![Github stars](https://img.shields.io/github/stars/cybozu/LicenseChecker)](https://github.com/cybozu/LicenseChecker/stargazers)
+[![Top language](https://img.shields.io/github/languages/top/cybozu/LicenseChecker)](https://github.com/cybozu/LicenseChecker/)
+[![Release](https://img.shields.io/github/v/release/cybozu/LicenseChecker)]()
+[![Github license](https://img.shields.io/github/license/cybozu/LicenseChecker)](https://github.com/cybozu/LicenseChecker/)
+
 **Execution Example**
 
 ```shell
@@ -42,7 +49,7 @@ $
 
 ## How to Use
 
-### Prepare a white list (`white-list.json`).
+0. Prepare a white list (`white-list.json`).
 
 - Specify the type of license that is valid.
 - Specify the name of library that is valid (for private libraries).
