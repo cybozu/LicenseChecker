@@ -10,13 +10,13 @@ struct LicenseChecker: ParsableCommand {
 
     @Option(
         name: [.customShort("s"), .customLong("source-packages-path")],
-        help: "Path of SourcePackages directory"
+        help: "Path to SourcePackages directory"
     )
     var sourcePackagesPath: String
 
     @Option(
         name: [.customShort("w"), .customLong("white-list-path")],
-        help: "Path of white-list.json"
+        help: "Path to white-list.json"
     )
     var whiteListPath: String
 
