@@ -8,7 +8,7 @@
           "identity": "zlib-package",
           "kind": "remoteSourceControl",
           "location": "https://github.com/sample/zlib-package.git",
-          "name": "nanopb"
+          "name": "zlib-package"
         },
         "state": {
           "checkoutState": {

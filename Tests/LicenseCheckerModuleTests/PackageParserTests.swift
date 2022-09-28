@@ -14,7 +14,7 @@ final class PackageParserTests: XCTestCase {
     }
 
     func test_init_PackageParser_failure() throws {
-        let jsonPath = "SourcePackagesBroken/workspace-state"
+        let jsonPath = "SourcePackagesWorkspaceStateBroken/workspace-state"
         let jsonURL = try XCTUnwrap(testResources.getJsonUrl(jsonPath))
 
         let sut = PackageParser(url: jsonURL)
@@ -30,7 +30,7 @@ final class PackageParserTests: XCTestCase {
         let resourceURL = try XCTUnwrap(testResources.resourceURL)
         let dirURL = resourceURL.appendingPathComponent("SourcePackagesApache")
             .appendingPathComponent("checkouts")
-            .appendingPathComponent("swift-collections")
+            .appendingPathComponent("apache-package")
 
         let sut = packageParser.extractLicense(dirURL: dirURL)
         XCTAssertEqual(sut, "Apache")
@@ -45,7 +45,7 @@ final class PackageParserTests: XCTestCase {
         let checkoutsPath = "\(resourcePath)/SourcePackagesApache/checkouts"
         let sut = packageParser.parse(with: checkoutsPath)
 
-        let expect = [Acknowledgement(libraryName: "swift-collections", license: "Apache")]
+        let expect = [Acknowledgement(libraryName: "apache-package", license: "Apache")]
         XCTAssertEqual(sut, expect)
     }
 
@@ -58,7 +58,7 @@ final class PackageParserTests: XCTestCase {
         let resourceURL = try XCTUnwrap(testResources.resourceURL)
         let dirURL = resourceURL.appendingPathComponent("SourcePackagesMIT")
             .appendingPathComponent("checkouts")
-            .appendingPathComponent("LicenseList")
+            .appendingPathComponent("mit-package")
 
         let sut = packageParser.extractLicense(dirURL: dirURL)
         XCTAssertEqual(sut, "MIT")
@@ -73,7 +73,7 @@ final class PackageParserTests: XCTestCase {
         let checkoutsPath = "\(resourcePath)/SourcePackagesMIT/checkouts"
         let sut = packageParser.parse(with: checkoutsPath)
 
-        let expect = [Acknowledgement(libraryName: "LicenseList", license: "MIT")]
+        let expect = [Acknowledgement(libraryName: "mit-package", license: "MIT")]
         XCTAssertEqual(sut, expect)
     }
 
@@ -86,7 +86,7 @@ final class PackageParserTests: XCTestCase {
         let resourceURL = try XCTUnwrap(testResources.resourceURL)
         let dirURL = resourceURL.appendingPathComponent("SourcePackagesBSD")
             .appendingPathComponent("checkouts")
-            .appendingPathComponent("SwiftAssimp")
+            .appendingPathComponent("bsd-package")
 
         let sut = packageParser.extractLicense(dirURL: dirURL)
         XCTAssertEqual(sut, "BSD")
@@ -101,7 +101,7 @@ final class PackageParserTests: XCTestCase {
         let checkoutsPath = "\(resourcePath)/SourcePackagesBSD/checkouts"
         let sut = packageParser.parse(with: checkoutsPath)
 
-        let expect = [Acknowledgement(libraryName: "Assimp", license: "BSD")]
+        let expect = [Acknowledgement(libraryName: "bsd-package", license: "BSD")]
         XCTAssertEqual(sut, expect)
     }
 
@@ -114,7 +114,7 @@ final class PackageParserTests: XCTestCase {
         let resourceURL = try XCTUnwrap(testResources.resourceURL)
         let dirURL = resourceURL.appendingPathComponent("SourcePackagesZlib")
             .appendingPathComponent("checkouts")
-            .appendingPathComponent("nanopb")
+            .appendingPathComponent("zlib-package")
 
         let sut = packageParser.extractLicense(dirURL: dirURL)
         XCTAssertEqual(sut, "zlib")
@@ -129,7 +129,7 @@ final class PackageParserTests: XCTestCase {
         let checkoutsPath = "\(resourcePath)/SourcePackagesZlib/checkouts"
         let sut = packageParser.parse(with: checkoutsPath)
 
-        let expect = [Acknowledgement(libraryName: "nanopb", license: "zlib")]
+        let expect = [Acknowledgement(libraryName: "zlib-package", license: "zlib")]
         XCTAssertEqual(sut, expect)
     }
 
@@ -142,7 +142,7 @@ final class PackageParserTests: XCTestCase {
         let resourceURL = try XCTUnwrap(testResources.resourceURL)
         let dirURL = resourceURL.appendingPathComponent("SourcePackagesBoringSSL")
             .appendingPathComponent("checkouts")
-            .appendingPathComponent("boringSSL-SwiftPM")
+            .appendingPathComponent("boringssl-package")
 
         let sut = packageParser.extractLicense(dirURL: dirURL)
         XCTAssertEqual(sut, "BoringSSL")
@@ -157,7 +157,7 @@ final class PackageParserTests: XCTestCase {
         let checkoutsPath = "\(resourcePath)/SourcePackagesBoringSSL/checkouts"
         let sut = packageParser.parse(with: checkoutsPath)
 
-        let expect = [Acknowledgement(libraryName: "BoringSSL-GRPC", license: "BoringSSL")]
+        let expect = [Acknowledgement(libraryName: "boringssl-package", license: "BoringSSL")]
         XCTAssertEqual(sut, expect)
     }
 }
