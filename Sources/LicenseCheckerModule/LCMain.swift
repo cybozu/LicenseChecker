@@ -17,7 +17,7 @@ public final class LCMain {
         let acknowledgements = packageParser.parse(with: checkoutsPath)
         printAcknowledgments(acknowledgements)
         guard acknowledgements.allSatisfy({ whiteList.contains($0) }) else {
-            throw LCError.invalidLibraryFound
+            throw LCError.forbiddenLibraryFound
         }
         Swift.print("✅ No problems with library licensing.")
     }

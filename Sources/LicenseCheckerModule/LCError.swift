@@ -3,7 +3,7 @@ import Foundation
 public enum LCError: Error, LocalizedError {
     case notLoadedWorkspaceState
     case notLoadedWiteList
-    case invalidLibraryFound
+    case forbiddenLibraryFound
 
     public var errorDescription: String? {
         switch self {
@@ -11,8 +11,8 @@ public enum LCError: Error, LocalizedError {
             return "🚨 Couldn't load workspace-state.json"
         case .notLoadedWiteList:
             return "🚨 Couldn't load white-list.json"
-        case .invalidLibraryFound:
-            return "🚨 Invalid licensed library is found."
+        case .forbiddenLibraryFound:
+            return "🚨 Library with forbidden license is found."
         }
     }
 }
