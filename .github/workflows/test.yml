@@ -20,7 +20,7 @@ jobs:
 
       - name: Run LicenseCheckerModuleTests
         run: |
-          xcodebuild test \
+          xcodebuild clean test \
           -scheme LicenseChecker \
           -destination "platform=macOS" \
           -only-testing:LicenseCheckerModuleTests \
@@ -29,7 +29,7 @@ jobs:
 
       - name: Run LicenseCheckerTests
         run: |
-          xcodebuild test \
+          xcodebuild clean test \
           -scheme LicenseChecker \
           -destination "platform=macOS" \
           -only-testing:LicenseCheckerTests \
