@@ -83,7 +83,7 @@ LicenseChecker supports the following licenses:
        .binaryTarget(
            name: "license-checker",
            url: "https://github.com/cybozu/LicenseChecker/releases/download/1.0.0/license-checker-macos.artifactbundle.zip",
-           checksum: "29591d5ec6f02462e9248a69de7b30efccaa6ce0a7bce2c4aecabe68a20f3113"
+           checksum: "aee23c883511a28107b8025ceb0de69711a5641964c6d727c528016cff634b59"
        ),
        .plugin(
            name: "LicenseCheckerCommand",
@@ -136,7 +136,7 @@ LicenseChecker supports the following licenses:
        .binaryTarget(
            name: "license-checker",
            url: "https://github.com/cybozu/LicenseChecker/releases/download/1.0.0/license-checker-macos.artifactbundle.zip",
-           checksum: "29591d5ec6f02462e9248a69de7b30efccaa6ce0a7bce2c4aecabe68a20f3113"
+           checksum: "aee23c883511a28107b8025ceb0de69711a5641964c6d727c528016cff634b59"
        ),
        .plugin(
            name: "LicenseCheckerPlugin",
