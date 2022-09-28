@@ -19,11 +19,13 @@ public struct WhiteList: Decodable {
             }
             return satisfy
         }
-        if self.licenses.contains(where: { acknowledgement.license.hasPrefix($0) }) {
-            return true
+        let satisfy = self.licenses
+            .map({ $0.lowercased() })
+            .contains(acknowledgement.license.lowercased())
+        if !satisfy {
+            Swift.print(acknowledgement.libraryName, acknowledgement.license)
         }
-        Swift.print(acknowledgement.libraryName, acknowledgement.license)
-        return false
+        return satisfy
     }
 
     static func load(url: URL) -> WhiteList? {
