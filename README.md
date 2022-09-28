@@ -90,7 +90,7 @@ LicenseChecker supports the following licenses:
        .binaryTarget(
            name: "license-checker",
            url: "https://github.com/cybozu/LicenseChecker/releases/download/1.0.0/license-checker-macos.artifactbundle.zip",
-           checksum: "aee23c883511a28107b8025ceb0de69711a5641964c6d727c528016cff634b59"
+           checksum: "7574f78ed51838fc690bf87ec317cb5acbff5bfb533bbd308c6865a2a6455eab"
        ),
        .plugin(
            name: "LicenseCheckerCommand",
@@ -134,6 +134,8 @@ LicenseChecker supports the following licenses:
    license-checker -s ${SOURCE_PACKAGES_PATH} -w [Path to white-list.json]
    ```
 
+   ⚠️ `white-list.json` must be included in Target Membership.
+
 ### BuildToolPlugin (for Swift Package Project)
 
 1. Add binary target & plugin to `Package.swift`.
@@ -143,7 +145,7 @@ LicenseChecker supports the following licenses:
        .binaryTarget(
            name: "license-checker",
            url: "https://github.com/cybozu/LicenseChecker/releases/download/1.0.0/license-checker-macos.artifactbundle.zip",
-           checksum: "aee23c883511a28107b8025ceb0de69711a5641964c6d727c528016cff634b59"
+           checksum: "7574f78ed51838fc690bf87ec317cb5acbff5bfb533bbd308c6865a2a6455eab"
        ),
        .plugin(
            name: "LicenseCheckerPlugin",
