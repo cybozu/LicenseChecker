@@ -1,0 +1,25 @@
+{
+  "object": {
+    "artifacts": [],
+    "dependencies": [
+      {
+        "basedOn": null,
+        "packageRef": {
+          "identity": "bsd-package",
+          "kind": "remoteSourceControl",
+          "location": "https://github.com/sample/bsd-package.git",
+          "name": "bsd-package"
+        },
+        "state": {
+          "checkoutState": {
+            "revision": "ee2fc8389e139f065882170372e18b3d84e9c07a",
+            "version": "2.1.0"
+          },
+          "name": "sourceControlCheckout"
+        },
+        "subpath": "bsd-package"
+      }
+    ]
+  },
+  "version": 5
+}

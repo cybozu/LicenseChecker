@@ -1,0 +1,25 @@
+{
+  "object": {
+    "artifacts": [],
+    "dependencies": [
+      {
+        "basedOn": null,
+        "packageRef": {
+          "identity": "zlib-package",
+          "kind": "remoteSourceControl",
+          "location": "https://github.com/sample/zlib-package.git",
+          "name": "nanopb"
+        },
+        "state": {
+          "checkoutState": {
+            "revision": "afc499f9a410fc9bbf6c9c48cdd8d8b199d49eb4",
+            "version": "0.4.6"
+          },
+          "name": "sourceControlCheckout"
+        },
+        "subpath": "zlib-package"
+      }
+    ]
+  },
+  "version": 5
+}

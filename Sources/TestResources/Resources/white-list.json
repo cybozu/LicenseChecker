@@ -1,0 +1,14 @@
+{
+    "licenses": [
+        "Apache",
+        "BSD",
+        "MIT",
+        "zlib",
+        "BoringSSL"
+    ],
+    "libraries": [
+        "Slash",
+        "LicenseChecker",
+        "PactSwiftToolbox"
+    ]
+}

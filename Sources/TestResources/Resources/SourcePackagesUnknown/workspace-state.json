@@ -1,0 +1,25 @@
+{
+  "object": {
+    "artifacts": [],
+    "dependencies": [
+      {
+        "basedOn": null,
+        "packageRef": {
+          "identity": "unknown",
+          "kind": "remoteSourceControl",
+          "location": "https://github.com/unknown/unknown.git",
+          "name": "Unknown"
+        },
+        "state": {
+          "checkoutState": {
+            "revision": "000000",
+            "version": "0.0.1"
+          },
+          "name": "sourceControlCheckout"
+        },
+        "subpath": "Unknown"
+      }
+    ]
+  },
+  "version": 5
+}

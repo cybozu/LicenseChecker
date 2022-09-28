@@ -1,0 +1,25 @@
+{
+  "object": {
+    "artifacts": [],
+    "dependencies": [
+      {
+        "basedOn": null,
+        "packageRef": {
+          "identity": "apache-package",
+          "kind": "remoteSourceControl",
+          "location": "https://github.com/sample/apache-package.git",
+          "name": "apache-package"
+        },
+        "state": {
+          "checkoutState": {
+            "revision": "48254824bb4248676bf7ce56014ff57b142b77eb",
+            "version": "1.0.2"
+          },
+          "name": "sourceControlCheckout"
+        },
+        "subpath": "apache-package"
+      }
+    ]
+  },
+  "version": 5
+}

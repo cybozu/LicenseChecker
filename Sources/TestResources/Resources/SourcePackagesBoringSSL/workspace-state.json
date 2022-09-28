@@ -1,0 +1,25 @@
+{
+  "object": {
+    "artifacts": [],
+    "dependencies": [
+      {
+        "basedOn": null,
+        "packageRef": {
+          "identity": "boringssl-package",
+          "kind": "remoteSourceControl",
+          "location": "https://github.com/sample/boringssl-package.git",
+          "name": "boringssl-package"
+        },
+        "state": {
+          "checkoutState": {
+            "revision": "79db6516894a932d0ddaff3b05b9da1e4f6c4069",
+            "version": "0.9.0"
+          },
+          "name": "sourceControlCheckout"
+        },
+        "subpath": "boringssl-package"
+      }
+    ]
+  },
+  "version": 5
+}

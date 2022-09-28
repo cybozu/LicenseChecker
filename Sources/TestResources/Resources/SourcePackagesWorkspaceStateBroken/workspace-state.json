@@ -1,0 +1,14 @@
+{
+  "object": {
+    "dependency": [
+      {
+        "packageRef": {
+          "identity": "unknown",
+          "kind": "remoteSourceControl",
+          "name": "Unknown"
+        }
+      }
+    ]
+  },
+  "version": 5
+}

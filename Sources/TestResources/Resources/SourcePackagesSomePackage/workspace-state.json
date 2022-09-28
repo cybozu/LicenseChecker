@@ -1,0 +1,25 @@
+{
+  "object": {
+    "artifacts": [],
+    "dependencies": [
+      {
+        "basedOn": null,
+        "packageRef": {
+          "identity": "some-package",
+          "kind": "remoteSourceControl",
+          "location": "https://github.com/sample/some-package.git",
+          "name": "some-package"
+        },
+        "state": {
+          "checkoutState": {
+            "branch": "master",
+            "revision": "313bf6b8c89f11d8f6425ff64d7b3c0f731b58ec"
+          },
+          "name": "sourceControlCheckout"
+        },
+        "subpath": "some-package"
+      }
+    ]
+  },
+  "version": 5
+}

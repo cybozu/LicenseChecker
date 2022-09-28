@@ -1,0 +1,25 @@
+{
+  "object": {
+    "artifacts": [],
+    "dependencies": [
+      {
+        "basedOn": null,
+        "packageRef": {
+          "identity": "mit-package",
+          "kind": "remoteSourceControl",
+          "location": "https://github.com/sample/mit-package.git",
+          "name": "mit-package"
+        },
+        "state": {
+          "checkoutState": {
+            "branch": "main",
+            "revision": "93c395fa0ed73f8efd263bd6920fbb07c5c809fb"
+          },
+          "name": "sourceControlCheckout"
+        },
+        "subpath": "mit-package"
+      }
+    ]
+  },
+  "version": 5
+}
