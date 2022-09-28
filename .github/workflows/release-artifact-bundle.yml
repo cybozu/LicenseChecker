@@ -41,11 +41,13 @@ jobs:
           cp -f ".build/apple/Products/Release/license-checker" "${ARTIFACT_BUNDLE_PATH}"
           cp -f LICENSE "${ARTIFACT_BUNDLE}"
           zip -yr - "${ARTIFACT_BUNDLE}" > "./license-checker-macos.artifactbundle.zip"
+
       - name: Get checksum
         run: |
           CHECKSUM=$(swift package compute-checksum ./license-checker-macos.artifactbundle.zip)
           echo ${CHECKSUM}
           echo "CHECKSUM=${CHECKSUM}" >> $GITHUB_ENV
+
       - name: Create release
         uses: softprops/action-gh-release@v1
         with:
