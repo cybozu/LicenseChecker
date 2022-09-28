@@ -1,0 +1,57 @@
+name: Release Artifact Bundle
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+jobs:
+  release-artifact-bundle:
+    name: Release Artifact Bundle
+    runs-on: macos-12
+    timeout-minutes: 20
+    env:
+      DEVELOPER_DIR: "/Applications/Xcode_13.4.1.app/Contents/Developer"
+      ARTIFACT_BUNDLE: "license-checker.artifactbundle"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Show Xcode Version
+        run: xcodebuild -version
+
+      - name: Build LicenseChecker
+        run: swift build -c release --product license-checker --arch arm64 --arch x86_64
+
+      - name: Show LicenseChecker size
+        run: ls -Slh .build/apple/Products/Release/license-checker | awk '{print $5, $9}'
+
+      - name: Set Env
+        run: |
+          echo "VERSION_STRING=${{ github.ref_name }}" >> $GITHUB_ENV
+          echo "ARTIFACT_BUNDLE_PATH=${ARTIFACT_BUNDLE}/license-checker-${{ github.ref_name }}-macos/bin" >> $GITHUB_ENV
+          echo "TODAY=$(env LANG=en_US.UTF-8 date "+(%b %d, %Y)")" >> $GITHUB_ENV
+      - name: Make Output Directory
+        run: mkdir -p "${ARTIFACT_BUNDLE_PATH}"
+
+      - name: Make Artifact Bundle
+        run: |
+          sed "s/__VERSION__/${VERSION_STRING}/g" info-macos.json.template > "${ARTIFACT_BUNDLE}/info.json"
+          cp -f ".build/apple/Products/Release/license-checker" "${ARTIFACT_BUNDLE_PATH}"
+          cp -f LICENSE "${ARTIFACT_BUNDLE}"
+          zip -yr - "${ARTIFACT_BUNDLE}" > "./license-checker-macos.artifactbundle.zip"
+      - name: Get checksum
+        run: |
+          CHECKSUM=$(swift package compute-checksum ./license-checker-macos.artifactbundle.zip)
+          echo ${CHECKSUM}
+          echo "CHECKSUM=${CHECKSUM}" >> $GITHUB_ENV
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: "${{ github.ref_name }} ${{ env.TODAY }}"
+          tag_name: ${{ github.ref_name }}
+          body: "**checksum**: ${{ env.CHECKSUM }}"
+          files: "./license-checker-macos.artifactbundle.zip"
+          draft: false
+          prerelease: false
