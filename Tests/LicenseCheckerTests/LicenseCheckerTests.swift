@@ -213,7 +213,7 @@ final class LicenseCheckerTests: XCTestCase {
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         let output = try XCTUnwrap(String(data: data, encoding: .utf8))
 
-        XCTAssertTrue(output.hasSuffix("🚨 Invalid licensed library is found.\n"))
+        XCTAssertTrue(output.hasSuffix("🚨 Library with forbidden license is found.\n"))
         XCTAssertEqual(process.terminationStatus, 1)
     }
 }
