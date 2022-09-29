@@ -51,8 +51,8 @@ $
 
 0. Prepare a white list (`white-list.json`).
 
-- Specify the type of license that is valid.
-- Specify the name of library that is valid (for private libraries).
+- Specify the type of license to approve.
+- Specify the name of library to approve (for private libraries).
 
 LicenseChecker supports the following licenses:
 
