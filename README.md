@@ -14,29 +14,27 @@ It can detect libraries that are not included in a whitelist specifying the lice
 
 ```shell
 $ license-checker --source-packages-path ~/SourcePackages --white-list-path ~/white-list.json 
-abseil               Apache
-BoringSSL-GRPC       BoringSSL
-Eureka               MIT
-Firebase             Apache
-GoogleAppMeasurement Apache
-GoogleDataTransport  Apache
-GoogleUtilities      MIT
-gRPC                 Apache
-GTMSessionFetcher    Apache
-Kanna                MIT
-KeychainAccess       MIT
-Kingfisher           MIT
-leveldb              BSD
-LicenseChecker       unknown
-LicenseList          MIT
-nanopb               zlib
-ObjectMapper         MIT
-Promises             Apache
-R.swift.Library      MIT
-Reachability         MIT
-RxGesture            MIT
-RxSwift              MIT
-SwiftProtobuf        Apache
+✔︎ abseil               Apache
+✔︎ BoringSSL-GRPC       BoringSSL
+✔︎ Firebase             Apache
+✔︎ GoogleAppMeasurement Apache
+✔︎ GoogleDataTransport  Apache
+✔︎ GoogleUtilities      MIT
+✔︎ gRPC                 Apache
+✔︎ GTMSessionFetcher    Apache
+✔︎ Kanna                MIT
+✔︎ KeychainAccess       MIT
+✔︎ Kingfisher           MIT
+✔︎ leveldb              BSD
+✔︎ LicenseList          MIT
+✔︎ nanopb               zlib
+✔︎ ObjectMapper         MIT
+✔︎ Promises             Apache
+✔︎ R.swift.Library      MIT
+✔︎ Reachability         MIT
+✔︎ RxGesture            MIT
+✔︎ RxSwift              MIT
+✔︎ SwiftProtobuf        Apache
 ✅ No problems with library licensing.
 $
 ```
@@ -134,8 +132,6 @@ LicenseChecker supports the following licenses:
    license-checker -s ${SOURCE_PACKAGES_PATH} -w [Path to white-list.json]
    ```
 
-   ⚠️ `white-list.json` must be included in Target Membership.
-
 ### BuildToolPlugin (for Swift Package Project)
 
 1. Add binary target & plugin to `Package.swift`.
@@ -165,25 +161,33 @@ LicenseChecker supports the following licenses:
    
    @main
    struct LicenseCheckerPlugin: BuildToolPlugin {
-       func createBuildCommands(context: PluginContext, target: Target) async throws -> [Command] {
-           let whiteListPath = "Path to white-list.json" // Please change accordingly.
-           let pluginWorkDirectory = context.pluginWorkDirectory.string
-           let regex = try NSRegularExpression(pattern: ".*SourcePackages")
-           let range = NSMakeRange(0, pluginWorkDirectory.utf16.count)
-           guard let result = regex.firstMatch(in: pluginWorkDirectory, range: range) else {
-               throw NSError(domain: "com.cybozu.LicenseCheckerPlugin",
-                             code: 1,
-                             userInfo: ["message": "Failed to match"])
+       enum LCError: Error {
+           case sourcePackagesNotFound
+       }
+   
+       func sourcePackages(_ pluginWorkDirectory: Path) throws -> Path {
+           var tmpPath = pluginWorkDirectory
+           guard pluginWorkDirectory.string.contains("SourcePackages") else {
+               throw LCError.sourcePackagesNotFound
            }
-           let sourcePackageDirectory = NSString(string: pluginWorkDirectory)
-               .substring(with: result.range(at: 0))
+           while tmpPath.lastComponent != "SourcePackages" {
+               tmpPath = tmpPath.removingLastComponent()
+           }
+           return tmpPath
+       }
+   
+       func createBuildCommands(context: PluginContext, target: Target) async throws -> [Command] {
+           let executablePath = try context.tool(named: "license-checker").path
+           let sourcePackagesPath = try sourcePackages(context.pluginWorkDirectory)
+           let whiteListPath = "Path to white-list.json" // Please change accordingly.
+   
            return [
                .prebuildCommand(
-                   displayName: "LicenseChecker",
-                   executable: try context.tool(named: "license-checker").path,
+                   displayName: "Prepare LicenseList",
+                   executable: executablePath,
                    arguments: [
                        "--source-packages-path",
-                       sourcePackageDirectory,
+                       sourcePackagesPath.string,
                        "--white-list-path",
                        whiteListPath
                    ],
@@ -220,9 +224,9 @@ USAGE: license-checker --source-packages-path <source-packages-path> --white-lis
 
 OPTIONS:
   -s, --source-packages-path <source-packages-path>
-                          Path of SourcePackages directory
+                          Path to SourcePackages directory
   -w, --white-list-path <white-list-path>
-                          Path of white-list.json
+                          Path to white-list.json
   --version               Show the version.
   -h, --help              Show help information.
 ```

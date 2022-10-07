@@ -15,18 +15,21 @@ public struct PackageParser {
         self.workspaceState = workspaceState
     }
 
-    public func parse(with checkoutsPath: String) -> [Acknowledgement] {
+    public func parse(with checkoutsPath: String, whiteList: WhiteList) -> [Acknowledgement] {
         return workspaceState.object.dependencies.map { dependency in
             let components = dependency.packageRef.location.components(separatedBy: "/")
             let repoName = components.last!.replacingOccurrences(of: ".git", with: "")
             let dirURL = URL(fileURLWithPath: checkoutsPath).appendingPathComponent(repoName)
-            let license = extractLicense(dirURL: dirURL)
-            return Acknowledgement(libraryName: dependency.packageRef.name,
-                                   license: license ?? "unknown")
+            let libraryName = dependency.packageRef.name
+            let licenseType = extractLicense(dirURL: dirURL)
+            let isForbidden = !whiteList.contains(libraryName, licenseType: licenseType)
+            return Acknowledgement(libraryName: libraryName,
+                                   licenseType: licenseType,
+                                   isForbidden: isForbidden)
         }.sorted { $0.libraryName.lowercased() < $1.libraryName.lowercased() }
     }
 
-    public func extractLicense(dirURL: URL) -> String? {
+    public func extractLicense(dirURL: URL) -> LicenseType {
         let fm = FileManager.default
         let contents = (try? fm.contentsOfDirectory(atPath: dirURL.path)) ?? []
         let _licenseURL = contents.map { content in
@@ -40,25 +43,25 @@ public struct PackageParser {
             return false
         }.first
         guard let licenseURL = _licenseURL, var text = try? String(contentsOf: licenseURL) else {
-            return nil
+            return .unknown
         }
         text = text.replace(of: #"(  +|\n)"#, with: " ")
-        var license: String? = nil
+        var licenseType = LicenseType.unknown
         if text.contains("Apache License") || text.contains(APACHE_TEXT) {
-            license = "Apache"
+            licenseType = .apache
         }
         if text.contains("MIT License") || text.contains(MIT_TEXT) {
-            license = "MIT"
+            licenseType = .mit
         }
         if text.contains(BSD_TEXT) {
-            license = "BSD"
+            licenseType = .bsd
         }
         if text.contains(ZLIB_TEXT) {
-            license = "zlib"
+            licenseType = .zlib
         }
         if text.contains(BORINGSSL_TEXT) {
-            license = "BoringSSL"
+            licenseType = .boringSSL
         }
-        return license
+        return licenseType
     }
 }

@@ -36,9 +36,9 @@ final class LicenseCheckerTests: XCTestCase {
 
         OPTIONS:
           -s, --source-packages-path <source-packages-path>
-                                  Path of SourcePackages directory
+                                  Path to SourcePackages directory
           -w, --white-list-path <white-list-path>
-                                  Path of white-list.json
+                                  Path to white-list.json
           --version               Show the version.
           -h, --help              Show help information.\n\n
         """

@@ -14,9 +14,9 @@ public final class LCMain {
         guard let whiteList = WhiteList.load(url: whiteListURL) else {
             throw LCError.notLoadedWiteList
         }
-        let acknowledgements = packageParser.parse(with: checkoutsPath)
+        let acknowledgements = packageParser.parse(with: checkoutsPath, whiteList: whiteList)
         printAcknowledgments(acknowledgements)
-        guard acknowledgements.allSatisfy({ whiteList.contains($0) }) else {
+        guard acknowledgements.allSatisfy({ $0.isForbidden == false }) else {
             throw LCError.forbiddenLibraryFound
         }
         Swift.print("✅ No problems with library licensing.")
@@ -27,9 +27,10 @@ public final class LCMain {
             $0.libraryName.count < $1.libraryName.count
         }?.libraryName.count ?? 0
         acknowledgements.forEach { acknowledgement in
+            let mark = acknowledgement.isForbidden ? "×" : "✔︎"
             let library = acknowledgement.libraryName
                 .padding(toLength: length, withPad: " ", startingAt: 0)
-            Swift.print(library, acknowledgement.license)
+            Swift.print(mark, library, acknowledgement.licenseType.rawValue)
         }
     }
 }

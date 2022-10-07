@@ -40,6 +40,9 @@ let package = Package(
             dependencies: [
                 .target(name: "LicenseCheckerModule"),
                 .target(name: "TestResources")
+            ],
+            resources: [
+                .process("Resources")
             ]
         ),
         .testTarget(

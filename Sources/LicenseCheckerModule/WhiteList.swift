@@ -1,8 +1,13 @@
 import Foundation
 
 public struct WhiteList: Decodable {
-    let licenses: [String]
-    let libraries: [String]
+    let licenses: [String]?
+    let libraries: [String]?
+
+    public init(licenses: [String]?, libraries: [String]?) {
+        self.licenses = licenses
+        self.libraries = libraries
+    }
 
     private init?(url: URL) {
         guard let data = try? Data(contentsOf: url),
@@ -11,21 +16,17 @@ public struct WhiteList: Decodable {
         self = whiteList
     }
 
-    public func contains(_ acknowledgement: Acknowledgement) -> Bool {
-        if acknowledgement.license == "unknown" {
-            let satisfy = self.libraries.contains(acknowledgement.libraryName)
-            if !satisfy {
-                Swift.print(acknowledgement.libraryName, acknowledgement.license)
-            }
-            return satisfy
+    public func contains(_ libraryName: String, licenseType: LicenseType) -> Bool {
+        if let libraries, libraries.contains(libraryName) {
+            return true
         }
-        let satisfy = self.licenses
-            .map({ $0.lowercased() })
-            .contains(acknowledgement.license.lowercased())
-        if !satisfy {
-            Swift.print(acknowledgement.libraryName, acknowledgement.license)
+        if licenseType == .unknown {
+            return false
         }
-        return satisfy
+        if let licenses {
+            return licenses.map({ $0.lowercased() }).contains(licenseType.lowercased)
+        }
+        return false
     }
 
     static func load(url: URL) -> WhiteList? {

@@ -4,6 +4,7 @@ import TestResources
 
 final class PackageParserTests: XCTestCase {
     let testResources = TestResources()
+    let whiteListDummy = WhiteList(licenses: nil, libraries: nil)
 
     func test_init_PackageParser_success() throws {
         let jsonPath = "SourcePackagesUnknown/workspace-state"
@@ -33,7 +34,7 @@ final class PackageParserTests: XCTestCase {
             .appendingPathComponent("apache-package")
 
         let sut = packageParser.extractLicense(dirURL: dirURL)
-        XCTAssertEqual(sut, "Apache")
+        XCTAssertEqual(sut, LicenseType.apache)
     }
 
     func test_parse_apache() throws {
@@ -43,10 +44,12 @@ final class PackageParserTests: XCTestCase {
 
         let resourcePath = try XCTUnwrap(testResources.resourcePath)
         let checkoutsPath = "\(resourcePath)/SourcePackagesApache/checkouts"
-        let sut = packageParser.parse(with: checkoutsPath)
+        let sut = packageParser.parse(with: checkoutsPath, whiteList: whiteListDummy)
 
-        let expect = [Acknowledgement(libraryName: "apache-package", license: "Apache")]
-        XCTAssertEqual(sut, expect)
+        let expect = Acknowledgement(libraryName: "apache-package",
+                                     licenseType: .apache,
+                                     isForbidden: true)
+        XCTAssertEqual(sut, [expect])
     }
 
     // MIT
@@ -61,7 +64,7 @@ final class PackageParserTests: XCTestCase {
             .appendingPathComponent("mit-package")
 
         let sut = packageParser.extractLicense(dirURL: dirURL)
-        XCTAssertEqual(sut, "MIT")
+        XCTAssertEqual(sut, LicenseType.mit)
     }
 
     func test_parse_mit() throws {
@@ -71,10 +74,12 @@ final class PackageParserTests: XCTestCase {
 
         let resourcePath = try XCTUnwrap(testResources.resourcePath)
         let checkoutsPath = "\(resourcePath)/SourcePackagesMIT/checkouts"
-        let sut = packageParser.parse(with: checkoutsPath)
+        let sut = packageParser.parse(with: checkoutsPath, whiteList: whiteListDummy)
 
-        let expect = [Acknowledgement(libraryName: "mit-package", license: "MIT")]
-        XCTAssertEqual(sut, expect)
+        let expect = Acknowledgement(libraryName: "mit-package",
+                                     licenseType: .mit,
+                                     isForbidden: true)
+        XCTAssertEqual(sut, [expect])
     }
 
     // BSD
@@ -89,7 +94,7 @@ final class PackageParserTests: XCTestCase {
             .appendingPathComponent("bsd-package")
 
         let sut = packageParser.extractLicense(dirURL: dirURL)
-        XCTAssertEqual(sut, "BSD")
+        XCTAssertEqual(sut, LicenseType.bsd)
     }
 
     func test_parse_bsd() throws {
@@ -99,10 +104,12 @@ final class PackageParserTests: XCTestCase {
 
         let resourcePath = try XCTUnwrap(testResources.resourcePath)
         let checkoutsPath = "\(resourcePath)/SourcePackagesBSD/checkouts"
-        let sut = packageParser.parse(with: checkoutsPath)
+        let sut = packageParser.parse(with: checkoutsPath, whiteList: whiteListDummy)
 
-        let expect = [Acknowledgement(libraryName: "bsd-package", license: "BSD")]
-        XCTAssertEqual(sut, expect)
+        let expect = Acknowledgement(libraryName: "bsd-package",
+                                     licenseType: .bsd,
+                                     isForbidden: true)
+        XCTAssertEqual(sut, [expect])
     }
 
     // zlib
@@ -117,7 +124,7 @@ final class PackageParserTests: XCTestCase {
             .appendingPathComponent("zlib-package")
 
         let sut = packageParser.extractLicense(dirURL: dirURL)
-        XCTAssertEqual(sut, "zlib")
+        XCTAssertEqual(sut, LicenseType.zlib)
     }
 
     func test_parse_zlib() throws {
@@ -127,10 +134,12 @@ final class PackageParserTests: XCTestCase {
 
         let resourcePath = try XCTUnwrap(testResources.resourcePath)
         let checkoutsPath = "\(resourcePath)/SourcePackagesZlib/checkouts"
-        let sut = packageParser.parse(with: checkoutsPath)
+        let sut = packageParser.parse(with: checkoutsPath, whiteList: whiteListDummy)
 
-        let expect = [Acknowledgement(libraryName: "zlib-package", license: "zlib")]
-        XCTAssertEqual(sut, expect)
+        let expect = Acknowledgement(libraryName: "zlib-package",
+                                     licenseType: .zlib,
+                                     isForbidden: true)
+        XCTAssertEqual(sut, [expect])
     }
 
     // BoringSSL
@@ -145,7 +154,7 @@ final class PackageParserTests: XCTestCase {
             .appendingPathComponent("boringssl-package")
 
         let sut = packageParser.extractLicense(dirURL: dirURL)
-        XCTAssertEqual(sut, "BoringSSL")
+        XCTAssertEqual(sut, LicenseType.boringSSL)
     }
 
     func test_parse_boringssl() throws {
@@ -155,9 +164,11 @@ final class PackageParserTests: XCTestCase {
 
         let resourcePath = try XCTUnwrap(testResources.resourcePath)
         let checkoutsPath = "\(resourcePath)/SourcePackagesBoringSSL/checkouts"
-        let sut = packageParser.parse(with: checkoutsPath)
+        let sut = packageParser.parse(with: checkoutsPath, whiteList: whiteListDummy)
 
-        let expect = [Acknowledgement(libraryName: "boringssl-package", license: "BoringSSL")]
-        XCTAssertEqual(sut, expect)
+        let expect = Acknowledgement(libraryName: "boringssl-package",
+                                     licenseType: .boringSSL,
+                                     isForbidden: true)
+        XCTAssertEqual(sut, [expect])
     }
 }
