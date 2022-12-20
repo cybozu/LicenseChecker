@@ -12,7 +12,7 @@ public final class LCMain {
         }
         let whiteListURL = URL(fileURLWithPath: whiteListPath)
         guard let whiteList = WhiteList.load(url: whiteListURL) else {
-            throw LCError.notLoadedWiteList
+            throw LCError.notLoadedWhiteList
         }
         let acknowledgements = packageParser.parse(with: checkoutsPath, whiteList: whiteList)
         printAcknowledgments(acknowledgements)
