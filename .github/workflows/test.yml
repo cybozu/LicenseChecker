@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Show Xcode Version
         run: xcodebuild -version
@@ -28,6 +28,6 @@ jobs:
 
       - name: Archive unit test results
         if: success() || failure()
-        uses: kishikawakatsumi/xcresulttool@v1.6.0
+        uses: kishikawakatsumi/xcresulttool@v1
         with:
           path: TestsResult.xcresult
