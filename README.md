@@ -43,7 +43,7 @@ $
 
 - Written in Swift 5
 - Compatible with macOS 12.0+
-- Development with Xcode 14.0+
+- Development with Xcode 14.2+
 
 ## How to Use
 
@@ -54,13 +54,13 @@ $
 
 LicenseChecker supports the following licenses:
 
-|license type|white list key|
-|:---|:---|
-|Apache license 2.0|`Apache`|
-|MIT License|`MIT`|
-|BSD 3-clause Clear license|`BSD`|
-|zLib License|`zlib`|
-|BoringSSL|`BoringSSL`|
+| license type               | white list key |
+| :------------------------- | :------------- |
+| Apache license 2.0         | `Apache`       |
+| MIT License                | `MIT`          |
+| BSD 3-clause Clear license | `BSD`          |
+| zLib License               | `zlib`         |
+| BoringSSL                  | `BoringSSL`    |
 
 **Sample of `white-list.json`**
 
@@ -87,8 +87,8 @@ LicenseChecker supports the following licenses:
    targets: [
        .binaryTarget(
            name: "license-checker",
-           url: "https://github.com/cybozu/LicenseChecker/releases/download/1.1.0/license-checker-macos.artifactbundle.zip",
-           checksum: "6df0b847c135f0093bf1acb4cb7072f665996b4e486ebdf26cb987b00835cd4e"
+           url: "https://github.com/cybozu/LicenseChecker/releases/download/1.2.0/license-checker-macos.artifactbundle.zip",
+           checksum: "4b3aacb1c2b2b91012db0b13680eba82f79a779c7271d086e12028901ada71b5"
        ),
        .plugin(
            name: "LicenseCheckerCommand",
@@ -140,8 +140,8 @@ LicenseChecker supports the following licenses:
    targets: [
        .binaryTarget(
            name: "license-checker",
-           url: "https://github.com/cybozu/LicenseChecker/releases/download/1.1.0/license-checker-macos.artifactbundle.zip",
-           checksum: "6df0b847c135f0093bf1acb4cb7072f665996b4e486ebdf26cb987b00835cd4e"
+           url: "https://github.com/cybozu/LicenseChecker/releases/download/1.2.0/license-checker-macos.artifactbundle.zip",
+           checksum: "4b3aacb1c2b2b91012db0b13680eba82f79a779c7271d086e12028901ada71b5"
        ),
        .plugin(
            name: "LicenseCheckerPlugin",
