@@ -35,7 +35,8 @@ public struct PackageParser {
         let _licenseURL = contents.map { content in
             return dirURL.appendingPathComponent(content)
         }.filter { contentURL in
-            if contentURL.lastPathComponent.lowercased().hasPrefix("license") {
+            let fileName = contentURL.deletingPathExtension().lastPathComponent.lowercased()
+            if ["license", "licence"].contains(fileName) {
                 var isDiractory: ObjCBool = false
                 fm.fileExists(atPath: contentURL.path, isDirectory: &isDiractory)
                 return isDiractory.boolValue == false
