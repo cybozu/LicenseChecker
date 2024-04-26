@@ -161,14 +161,14 @@ LicenseChecker supports the following licenses:
    
    @main
    struct LicenseCheckerPlugin: BuildToolPlugin {
-       enum LCError: Error {
-           case sourcePackagesNotFound
+       struct SourcePackagesNotFoundError: Error & CustomStringConvertible {
+           let description: String = "SourcePackages not found"
        }
    
        func sourcePackages(_ pluginWorkDirectory: Path) throws -> Path {
            var tmpPath = pluginWorkDirectory
            guard pluginWorkDirectory.string.contains("SourcePackages") else {
-               throw LCError.sourcePackagesNotFound
+               throw SourcePackagesNotFoundError()
            }
            while tmpPath.lastComponent != "SourcePackages" {
                tmpPath = tmpPath.removingLastComponent()
