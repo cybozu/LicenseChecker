@@ -59,7 +59,9 @@ let package = Package(
         .plugin(
             name: "LicenseCheckerPlugin",
             capability: .buildTool(),
-            dependencies: ["LicenseChecker"]
+            dependencies: [
+                .target(name: "LicenseChecker")
+            ]
         )
     ]
 )

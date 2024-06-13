@@ -91,7 +91,9 @@ LicenseChecker supports the following licenses:
 
 ### BuildToolPlugin (for Swift Package Project)
 
-1. Add the dependency of plugin to `Package.swift`.
+1. Put `white-list.json` to the package root.
+
+2. Add the dependency of plugin to `Package.swift`.
 
    ```swift
    dependencies: [
@@ -99,13 +101,12 @@ LicenseChecker supports the following licenses:
    ],
    ```
 
-2. Use plugin in the target (`Package.swift`).
+3. Use plugin in the target (`Package.swift`).
 
    ```swift
    targets: [
        .target(
            name: "SomeFeature",
-           resources: [.process("white-list.json")], // Please change accordingly.
            plugins: [
                .plugin(name: "LicenseCheckerPlugin", package: "LicenseChecker")
            ]

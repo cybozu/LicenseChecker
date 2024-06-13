@@ -19,12 +19,12 @@ struct LicenseCheckerPlugin: BuildToolPlugin {
     }
 
     func createBuildCommands(context: PluginContext, target: Target) async throws -> [Command] {
-        let executablePath = try context.tool(named: "license-checker").path
+        let executablePath = try context.tool(named: "LicenseChecker").path
         let sourcePackagesPath = try sourcePackages(context.pluginWorkDirectory)
         let whiteListPath = context.package.directory.appending(subpath: "white-list.json")
 
         return [
-            .prebuildCommand(
+            .buildCommand(
                 displayName: "Check License",
                 executable: executablePath,
                 arguments: [
@@ -33,7 +33,9 @@ struct LicenseCheckerPlugin: BuildToolPlugin {
                     "--white-list-path",
                     whiteListPath.string
                 ],
-                outputFilesDirectory: context.pluginWorkDirectory
+                outputFiles: [
+                    context.pluginWorkDirectory
+                ]
             )
         ]
     }
@@ -46,7 +48,7 @@ import XcodeProjectPlugin
 /// This command works with `Run Build Tool Plug-ins` in Xcode `Build Phase`.
 extension LicenseCheckerPlugin: XcodeBuildToolPlugin {
     func createBuildCommands(context: XcodePluginContext, target: XcodeTarget) throws -> [Command] {
-        let executablePath = try context.tool(named: "license-checker").path
+        let executablePath = try context.tool(named: "LicenseChecker").path
         let sourcePackagesPath = try sourcePackages(context.pluginWorkDirectory)
         let whiteListPath = context.xcodeProject.directory.appending(subpath: "white-list.json")
 
