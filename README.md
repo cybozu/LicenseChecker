@@ -82,12 +82,12 @@ LicenseChecker supports the following licenses:
 ### XcodeBuildToolPlugin (for Xcode Project)
 
 1. Put `white-list.json` to the project root.
-
-2. File > Add Package Dependencies…
-
-3. Search `https://github.com/cybozu/LicenseChecker.git.`
-
-4. Use plugin in Build Phases.
+2. File > Add Package Dependencies…  
+   <img src="Screenshots/add-package-dependencies.png" width="800px">
+3. Search `https://github.com/cybozu/LicenseChecker.git.`  
+   <img src="Screenshots/add-package.png" width="600px">
+4. Use plugin in Build Phases.  
+   <img src="Screenshots/add-plugin.png" width="500px">
 
 ### BuildToolPlugin (for Swift Package Project)
 
