@@ -53,7 +53,7 @@ extension LicenseCheckerPlugin: XcodeBuildToolPlugin {
         let whiteListPath = context.xcodeProject.directory.appending(subpath: "white-list.json")
 
         return [
-            .prebuildCommand(
+            .buildCommand(
                 displayName: "Check License",
                 executable: executablePath,
                 arguments: [
@@ -62,7 +62,9 @@ extension LicenseCheckerPlugin: XcodeBuildToolPlugin {
                     "--white-list-path",
                     whiteListPath.string
                 ],
-                outputFilesDirectory: context.pluginWorkDirectory
+                outputFiles: [
+                    context.pluginWorkDirectory
+                ]
             )
         ]
     }
