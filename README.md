@@ -166,7 +166,6 @@ If your project directory structure is special and you want to specify the path 
    ```
 
 3. Add a Run Script in BuildPhases
-   
    ```shell
    SOURCE_PACKAGES_PATH=`echo ${BUILD_DIR%Build/*}SourcePackages`
    xcrun --sdk macosx swift package --package-path ./RoadWarriorPackages \
