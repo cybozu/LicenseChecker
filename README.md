@@ -79,7 +79,44 @@ LicenseChecker supports the following licenses:
 }
 ```
 
+### XcodeBuildToolPlugin (for Xcode Project)
+
+1. Put `white-list.json` to the project root.
+2. File > Add Package Dependencies…  
+   <img src="Screenshots/add-package-dependencies.png" width="800px">
+3. Search `https://github.com/cybozu/LicenseChecker.git.`  
+   <img src="Screenshots/add-package.png" width="600px">
+4. Use plugin in Build Phases.  
+   <img src="Screenshots/add-plugin.png" width="500px">
+
+### BuildToolPlugin (for Swift Package Project)
+
+1. Put `white-list.json` to the package root.
+
+2. Add the dependency of plugin to `Package.swift`.
+
+   ```swift
+   dependencies: [
+       .package(url: "https://github.com/cybozu/LicenseChecker.git", exact: "1.2.0")
+   ],
+   ```
+
+3. Use plugin in the target (`Package.swift`).
+
+   ```swift
+   targets: [
+       .target(
+           name: "SomeFeature",
+           plugins: [
+               .plugin(name: "LicenseCheckerPlugin", package: "LicenseChecker")
+           ]
+       )
+   ]
+   ```
+
 ### CommandPlugin & Run Script in BuildPhases (for Xcode Project)
+
+If your project directory structure is special and you want to specify the path to white-list.json, use CommandPlugin.
 
 1. Add binary target & plugin to `Package.swift`.
 
@@ -110,106 +147,30 @@ LicenseChecker supports the following licenses:
    @main
    struct LicenseCheckerCommand: CommandPlugin {
        func performCommand(context: PluginContext, arguments: [String]) async throws {
-           let licenseCheckerPath = try context.tool(named: "license-checker").path.string
-           let rswiftURL = URL(fileURLWithPath: licenseCheckerPath, isDirectory: false)
+           let licenseCheckerPath = try context.tool(named: "license-checker").path
+           let commandURL = URL(fileURLWithPath: licenseCheckerPath.string, isDirectory: false)
    
-           let process = try Process.run(rswiftURL, arguments: arguments)
+           let process = try Process.run(commandURL, arguments: arguments)
            process.waitUntilExit()
    
-           if process.terminationReason != .exit || process.terminationStatus != 0 {
-               Diagnostics.error("license-checker errors detected.")
+           guard process.terminationReason == .exit else {
+               Diagnostics.error("Termination Other Than Exit")
+               return
+           }
+           guard process.terminationStatus == EXIT_SUCCESS else {
+               Diagnostics.error("Command Failed")
+               return
            }
        }
    }
    ```
 
 3. Add a Run Script in BuildPhases
-
    ```shell
    SOURCE_PACKAGES_PATH=`echo ${BUILD_DIR%Build/*}SourcePackages`
    xcrun --sdk macosx swift package --package-path ./RoadWarriorPackages \
-   --allow-writing-to-directory ${SRCROOT} \
-   license-checker -s ${SOURCE_PACKAGES_PATH} -w [Path to white-list.json]
-   ```
-
-### BuildToolPlugin (for Swift Package Project)
-
-1. Add binary target & plugin to `Package.swift`.
-
-   ```swift
-   targets: [
-       .binaryTarget(
-           name: "license-checker",
-           url: "https://github.com/cybozu/LicenseChecker/releases/download/1.2.0/license-checker-macos.artifactbundle.zip",
-           checksum: "4b3aacb1c2b2b91012db0b13680eba82f79a779c7271d086e12028901ada71b5"
-       ),
-       .plugin(
-           name: "LicenseCheckerPlugin",
-           capability: .buildTool(),
-           dependencies: [
-               .target(name: "license-checker")
-           ]
-       )
-   ]
-   ```
-
-2. Code `Plugins/LicenseCheckerPlugin/main.swift`.
-
-   ```swift
-   import Foundation
-   import PackagePlugin
-   
-   @main
-   struct LicenseCheckerPlugin: BuildToolPlugin {
-       struct SourcePackagesNotFoundError: Error & CustomStringConvertible {
-           let description: String = "SourcePackages not found"
-       }
-   
-       func sourcePackages(_ pluginWorkDirectory: Path) throws -> Path {
-           var tmpPath = pluginWorkDirectory
-           guard pluginWorkDirectory.string.contains("SourcePackages") else {
-               throw SourcePackagesNotFoundError()
-           }
-           while tmpPath.lastComponent != "SourcePackages" {
-               tmpPath = tmpPath.removingLastComponent()
-           }
-           return tmpPath
-       }
-   
-       func createBuildCommands(context: PluginContext, target: Target) async throws -> [Command] {
-           let executablePath = try context.tool(named: "license-checker").path
-           let sourcePackagesPath = try sourcePackages(context.pluginWorkDirectory)
-           let whiteListPath = "Path to white-list.json" // Please change accordingly.
-   
-           return [
-               .prebuildCommand(
-                   displayName: "Prepare LicenseList",
-                   executable: executablePath,
-                   arguments: [
-                       "--source-packages-path",
-                       sourcePackagesPath.string,
-                       "--white-list-path",
-                       whiteListPath
-                   ],
-                   outputFilesDirectory: context.pluginWorkDirectory
-               )
-           ]
-       }
-   }
-   ```
-
-3. Use plugin in the target (`Package.swift`).
-
-   ```swift
-   targets: [
-       .target(
-           name: "SomeFeature",
-           resources: [.process("white-list.json")], // Please change accordingly.
-           plugins: [
-               .plugin(name: "LicenseCheckerPlugin")
-           ]
-       )
-   ]
+     --allow-writing-to-directory ${SRCROOT} \
+     license-checker -s ${SOURCE_PACKAGES_PATH} -w [Path to white-list.json]
    ```
 
 ## license-checker (command help)

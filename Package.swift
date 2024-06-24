@@ -1,4 +1,4 @@
-// swift-tools-version: 5.6
+// swift-tools-version: 5.10
 
 import PackageDescription
 
@@ -11,6 +11,10 @@ let package = Package(
         .executable(
             name: "license-checker",
             targets: ["LicenseChecker"]
+        ),
+        .plugin(
+            name: "LicenseCheckerPlugin",
+            targets: ["LicenseCheckerPlugin"]
         )
     ],
     dependencies: [
@@ -51,7 +55,13 @@ let package = Package(
                 .target(name: "LicenseChecker"),
                 .target(name: "TestResources")
             ]
+        ),
+        .plugin(
+            name: "LicenseCheckerPlugin",
+            capability: .buildTool(),
+            dependencies: [
+                .target(name: "LicenseChecker")
+            ]
         )
-
     ]
 )
