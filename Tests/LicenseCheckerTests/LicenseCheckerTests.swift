@@ -175,7 +175,7 @@ final class LicenseCheckerTests: XCTestCase {
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         let output = try XCTUnwrap(String(data: data, encoding: .utf8))
 
-        XCTAssertTrue(output.hasSuffix("🚨 Couldn't load workspace-state.json\n"))
+        XCTAssertTrue(output.hasSuffix("error: Couldn't load workspace-state.json\n"))
         XCTAssertEqual(process.terminationStatus, 1)
     }
 
@@ -194,7 +194,7 @@ final class LicenseCheckerTests: XCTestCase {
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         let output = try XCTUnwrap(String(data: data, encoding: .utf8))
 
-        XCTAssertTrue(output.hasSuffix("🚨 Couldn't load white-list.json\n"))
+        XCTAssertTrue(output.hasSuffix("error: Couldn't load white-list.json\n"))
         XCTAssertEqual(process.terminationStatus, 1)
     }
 
@@ -213,7 +213,7 @@ final class LicenseCheckerTests: XCTestCase {
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         let output = try XCTUnwrap(String(data: data, encoding: .utf8))
 
-        XCTAssertTrue(output.hasSuffix("🚨 Library with forbidden license is found.\n"))
+        XCTAssertTrue(output.hasSuffix("error: Library with forbidden license is found.\n"))
         XCTAssertEqual(process.terminationStatus, 1)
     }
 }
