@@ -1,4 +1,5 @@
 import ArgumentParser
+import Darwin
 import LicenseCheckerModule
 
 struct LicenseChecker: ParsableCommand {
@@ -21,9 +22,14 @@ struct LicenseChecker: ParsableCommand {
     var whiteListPath: String
 
     mutating func run() throws {
-        try LCMain().run(
-            sourcePackagesPath: self.sourcePackagesPath,
-            whiteListPath: self.whiteListPath
-        )
+        do {
+            try LCMain().run(
+                sourcePackagesPath: self.sourcePackagesPath,
+                whiteListPath: self.whiteListPath
+            )
+        } catch let error as LCError {
+            Swift.print("error:", error.errorDescription!)
+            Darwin.exit(error.exitCode)
+        }
     }
 }
