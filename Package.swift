@@ -10,7 +10,7 @@ let package = Package(
     products: [
         .executable(
             name: "license-checker",
-            targets: ["LicenseChecker"]
+            targets: ["license-checker"]
         ),
         .plugin(
             name: "LicenseCheckerPlugin",
@@ -26,7 +26,7 @@ let package = Package(
     targets: [
         .target(name: "LicenseCheckerModule"),
         .executableTarget(
-            name: "LicenseChecker",
+            name: "license-checker",
             dependencies: [
                 .target(name: "LicenseCheckerModule"),
                 .product(
@@ -52,7 +52,7 @@ let package = Package(
         .testTarget(
             name: "LicenseCheckerTests",
             dependencies: [
-                .target(name: "LicenseChecker"),
+                .target(name: "license-checker"),
                 .target(name: "TestResources")
             ]
         ),
@@ -60,7 +60,7 @@ let package = Package(
             name: "LicenseCheckerPlugin",
             capability: .buildTool(),
             dependencies: [
-                .target(name: "LicenseChecker")
+                .target(name: "license-checker")
             ]
         )
     ]
