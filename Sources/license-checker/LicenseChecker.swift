@@ -6,7 +6,7 @@ struct LicenseChecker: ParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "license-checker",
         abstract: "A tool to check license of swift package libraries.",
-        version: "1.0.0"
+        version: "2.0.0"
     )
 
     @Option(
