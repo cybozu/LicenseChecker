@@ -26,10 +26,7 @@ let package = Package(
             name: "license-checker",
             dependencies: [
                 .target(name: "LicenseCheckerModule"),
-                .product(
-                    name: "ArgumentParser",
-                    package: "swift-argument-parser"
-                )
+                .product(name: "ArgumentParser", package: "swift-argument-parser")
             ]
         ),
         .target(
