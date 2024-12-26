@@ -3,7 +3,7 @@ import Darwin
 import LicenseCheckerModule
 
 struct LicenseChecker: ParsableCommand {
-    static var configuration = CommandConfiguration(
+    static let configuration = CommandConfiguration(
         commandName: "license-checker",
         abstract: "A tool to check license of swift package libraries.",
         version: "1.0.0"
@@ -24,8 +24,8 @@ struct LicenseChecker: ParsableCommand {
     mutating func run() throws {
         do {
             try LCMain().run(
-                sourcePackagesPath: self.sourcePackagesPath,
-                whiteListPath: self.whiteListPath
+                sourcePackagesPath: sourcePackagesPath,
+                whiteListPath: whiteListPath
             )
         } catch let error as LCError {
             Swift.print("error:", error.errorDescription!)

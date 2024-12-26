@@ -55,7 +55,7 @@ final class LicenseCheckerTests: XCTestCase {
         let resourceURL = try XCTUnwrap(testResources.resourceURL)
         let sourcePackagesURL = resourceURL.appendingPathComponent("SourcePackagesApache")
         let whiteListURL = sourcePackagesURL.appendingPathComponent("white-list.json")
-        process.arguments = ["-s", sourcePackagesURL.path, "-w", whiteListURL.path]
+        process.arguments = ["-s", sourcePackagesURL.absolutePath, "-w", whiteListURL.absolutePath]
         try process.run()
         process.waitUntilExit()
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
@@ -74,7 +74,7 @@ final class LicenseCheckerTests: XCTestCase {
         let resourceURL = try XCTUnwrap(testResources.resourceURL)
         let sourcePackagesURL = resourceURL.appendingPathComponent("SourcePackagesMIT")
         let whiteListURL = sourcePackagesURL.appendingPathComponent("white-list.json")
-        process.arguments = ["-s", sourcePackagesURL.path, "-w", whiteListURL.path]
+        process.arguments = ["-s", sourcePackagesURL.absolutePath, "-w", whiteListURL.absolutePath]
         try process.run()
         process.waitUntilExit()
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
@@ -93,7 +93,7 @@ final class LicenseCheckerTests: XCTestCase {
         let resourceURL = try XCTUnwrap(testResources.resourceURL)
         let sourcePackagesURL = resourceURL.appendingPathComponent("SourcePackagesBSD")
         let whiteListURL = sourcePackagesURL.appendingPathComponent("white-list.json")
-        process.arguments = ["-s", sourcePackagesURL.path, "-w", whiteListURL.path]
+        process.arguments = ["-s", sourcePackagesURL.absolutePath, "-w", whiteListURL.absolutePath]
         try process.run()
         process.waitUntilExit()
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
@@ -112,7 +112,7 @@ final class LicenseCheckerTests: XCTestCase {
         let resourceURL = try XCTUnwrap(testResources.resourceURL)
         let sourcePackagesURL = resourceURL.appendingPathComponent("SourcePackagesZlib")
         let whiteListURL = sourcePackagesURL.appendingPathComponent("white-list.json")
-        process.arguments = ["-s", sourcePackagesURL.path, "-w", whiteListURL.path]
+        process.arguments = ["-s", sourcePackagesURL.absolutePath, "-w", whiteListURL.absolutePath]
         try process.run()
         process.waitUntilExit()
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
@@ -131,7 +131,7 @@ final class LicenseCheckerTests: XCTestCase {
         let resourceURL = try XCTUnwrap(testResources.resourceURL)
         let sourcePackagesURL = resourceURL.appendingPathComponent("SourcePackagesBoringSSL")
         let whiteListURL = sourcePackagesURL.appendingPathComponent("white-list.json")
-        process.arguments = ["-s", sourcePackagesURL.path, "-w", whiteListURL.path]
+        process.arguments = ["-s", sourcePackagesURL.absolutePath, "-w", whiteListURL.absolutePath]
         try process.run()
         process.waitUntilExit()
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
@@ -150,7 +150,7 @@ final class LicenseCheckerTests: XCTestCase {
         let resourceURL = try XCTUnwrap(testResources.resourceURL)
         let sourcePackagesURL = resourceURL.appendingPathComponent("SourcePackagesSomePackage")
         let whiteListURL = sourcePackagesURL.appendingPathComponent("white-list.json")
-        process.arguments = ["-s", sourcePackagesURL.path, "-w", whiteListURL.path]
+        process.arguments = ["-s", sourcePackagesURL.absolutePath, "-w", whiteListURL.absolutePath]
         try process.run()
         process.waitUntilExit()
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
@@ -165,11 +165,11 @@ final class LicenseCheckerTests: XCTestCase {
         let process = Process()
         process.executableURL = licenseCheckerBinary
         let pipe = Pipe()
-        process.standardError = pipe
+        process.standardOutput = pipe
         let resourceURL = try XCTUnwrap(testResources.resourceURL)
         let sourcePackagesURL = resourceURL.appendingPathComponent("SourcePackagesWorkspaceStateBroken")
         let whiteListURL = sourcePackagesURL.appendingPathComponent("white-list.json")
-        process.arguments = ["-s", sourcePackagesURL.path, "-w", whiteListURL.path]
+        process.arguments = ["-s", sourcePackagesURL.absolutePath, "-w", whiteListURL.absolutePath]
         try process.run()
         process.waitUntilExit()
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
@@ -184,18 +184,18 @@ final class LicenseCheckerTests: XCTestCase {
         let process = Process()
         process.executableURL = licenseCheckerBinary
         let pipe = Pipe()
-        process.standardError = pipe
+        process.standardOutput = pipe
         let resourceURL = try XCTUnwrap(testResources.resourceURL)
         let sourcePackagesURL = resourceURL.appendingPathComponent("SourcePackagesWhiteListBroken")
         let whiteListURL = sourcePackagesURL.appendingPathComponent("white-list.json")
-        process.arguments = ["-s", sourcePackagesURL.path, "-w", whiteListURL.path]
+        process.arguments = ["-s", sourcePackagesURL.absolutePath, "-w", whiteListURL.absolutePath]
         try process.run()
         process.waitUntilExit()
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         let output = try XCTUnwrap(String(data: data, encoding: .utf8))
 
         XCTAssertTrue(output.hasSuffix("error: Couldn't load white-list.json\n"))
-        XCTAssertEqual(process.terminationStatus, 1)
+        XCTAssertEqual(process.terminationStatus, 2)
     }
 
     func test_unknown_license() throws {
@@ -203,17 +203,21 @@ final class LicenseCheckerTests: XCTestCase {
         let process = Process()
         process.executableURL = licenseCheckerBinary
         let pipe = Pipe()
-        process.standardError = pipe
+        process.standardOutput = pipe
         let resourceURL = try XCTUnwrap(testResources.resourceURL)
         let sourcePackagesURL = resourceURL.appendingPathComponent("SourcePackagesUnknown")
         let whiteListURL = sourcePackagesURL.appendingPathComponent("white-list.json")
-        process.arguments = ["-s", sourcePackagesURL.path, "-w", whiteListURL.path]
+        process.arguments = ["-s", sourcePackagesURL.absolutePath, "-w", whiteListURL.absolutePath]
         try process.run()
         process.waitUntilExit()
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         let output = try XCTUnwrap(String(data: data, encoding: .utf8))
 
         XCTAssertTrue(output.hasSuffix("error: Library with forbidden license is found.\n"))
-        XCTAssertEqual(process.terminationStatus, 1)
+        XCTAssertEqual(process.terminationStatus, 3)
     }
+}
+
+private extension URL {
+    var absolutePath: String { absoluteURL.path() }
 }
