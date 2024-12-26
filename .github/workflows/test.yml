@@ -9,7 +9,7 @@ jobs:
     runs-on: macos-14
     timeout-minutes: 20
     env:
-      DEVELOPER_DIR: "/Applications/Xcode_15.4.app/Contents/Developer"
+      DEVELOPER_DIR: "/Applications/Xcode_16.0.app/Contents/Developer"
 
     steps:
       - name: Checkout
@@ -25,9 +25,3 @@ jobs:
           -destination "platform=macOS" \
           -resultBundlePath TestsResult | \
           xcpretty -c && exit ${PIPESTATUS[0]}
-
-      - name: Archive unit test results
-        if: success() || failure()
-        uses: kishikawakatsumi/xcresulttool@v1
-        with:
-          path: TestsResult.xcresult

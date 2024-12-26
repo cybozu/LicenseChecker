@@ -41,9 +41,9 @@ $
 
 ## Requirements
 
-- Written in Swift 5.10
+- Written in Swift 6.0
 - Compatible with macOS 14.0+
-- Development with Xcode 15.4+
+- Development with Xcode 16.0+
 
 ## How to Use
 
@@ -147,10 +147,9 @@ If your project directory structure is special and you want to specify the path 
    @main
    struct LicenseCheckerCommand: CommandPlugin {
        func performCommand(context: PluginContext, arguments: [String]) async throws {
-           let licenseCheckerPath = try context.tool(named: "license-checker").path
-           let commandURL = URL(fileURLWithPath: licenseCheckerPath.string, isDirectory: false)
+           let tool = try context.tool(named: "license-checker")
    
-           let process = try Process.run(commandURL, arguments: arguments)
+           let process = try Process.run(tool.url, arguments: arguments)
            process.waitUntilExit()
    
            guard process.terminationReason == .exit else {

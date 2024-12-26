@@ -1,6 +1,10 @@
-// swift-tools-version: 5.10
+// swift-tools-version: 6.0
 
 import PackageDescription
+
+let swiftSettings: [SwiftSetting] = [
+    .enableUpcomingFeature("ExistentialAny"),
+]
 
 let package = Package(
     name: "LicenseChecker",
@@ -27,11 +31,13 @@ let package = Package(
             dependencies: [
                 .target(name: "LicenseCheckerModule"),
                 .product(name: "ArgumentParser", package: "swift-argument-parser")
-            ]
+            ],
+            swiftSettings: swiftSettings
         ),
         .target(
             name: "TestResources",
-            resources: [.copy("Resources/")]
+            resources: [.copy("Resources/")],
+            swiftSettings: swiftSettings
         ),
         .testTarget(
             name: "LicenseCheckerModuleTests",
@@ -41,14 +47,16 @@ let package = Package(
             ],
             resources: [
                 .process("Resources")
-            ]
+            ],
+            swiftSettings: swiftSettings
         ),
         .testTarget(
             name: "LicenseCheckerTests",
             dependencies: [
                 .target(name: "license-checker"),
                 .target(name: "TestResources")
-            ]
+            ],
+            swiftSettings: swiftSettings
         ),
         .plugin(
             name: "LicenseCheckerPlugin",

@@ -7,40 +7,40 @@ struct LicenseCheckerPlugin: BuildToolPlugin {
         let description: String = "SourcePackages not found"
     }
 
-    func sourcePackages(_ pluginWorkDirectory: Path) throws -> Path {
-        var tmpPath = pluginWorkDirectory
-        guard pluginWorkDirectory.string.contains("SourcePackages") else {
+    func sourcePackages(_ pluginWorkDirectory: URL) throws -> URL {
+        var tmpURL = pluginWorkDirectory
+        guard pluginWorkDirectory.absoluteURL.path().contains("SourcePackages") else {
             throw SourcePackagesNotFoundError()
         }
-        while tmpPath.lastComponent != "SourcePackages" {
-            tmpPath = tmpPath.removingLastComponent()
+        while tmpURL.lastPathComponent != "SourcePackages" {
+            tmpURL = tmpURL.deletingLastPathComponent()
         }
-        return tmpPath
+        return tmpURL
     }
 
-    func makeBuildCommand(executablePath: Path, sourcePackagesPath: Path, whiteListPath: Path, outputPath: Path) -> Command {
-        return .buildCommand(
+    func makeBuildCommand(executableURL: URL, sourcePackagesURL: URL, whiteListURL: URL, outputURL: URL) -> Command {
+        .buildCommand(
             displayName: "Check License",
-            executable: executablePath,
+            executable: executableURL,
             arguments: [
                 "--source-packages-path",
-                sourcePackagesPath.string,
+                sourcePackagesURL.absoluteURL.path(),
                 "--white-list-path",
-                whiteListPath.string
+                whiteListURL.absoluteURL.path()
             ],
             outputFiles: [
-                outputPath
+                outputURL
             ]
         )
     }
 
     func createBuildCommands(context: PluginContext, target: Target) async throws -> [Command] {
-        return [
+        [
             makeBuildCommand(
-                executablePath: try context.tool(named: "license-checker").path,
-                sourcePackagesPath: try sourcePackages(context.pluginWorkDirectory),
-                whiteListPath: context.package.directory.appending(subpath: "white-list.json"),
-                outputPath: context.pluginWorkDirectory
+                executableURL: try context.tool(named: "license-checker").url,
+                sourcePackagesURL: try sourcePackages(context.pluginWorkDirectoryURL),
+                whiteListURL: context.package.directoryURL.appending(path: "white-list.json"),
+                outputURL: context.pluginWorkDirectoryURL
             )
         ]
     }
@@ -53,12 +53,12 @@ import XcodeProjectPlugin
 /// This command works with `Run Build Tool Plug-ins` in Xcode `Build Phase`.
 extension LicenseCheckerPlugin: XcodeBuildToolPlugin {
     func createBuildCommands(context: XcodePluginContext, target: XcodeTarget) throws -> [Command] {
-        return [
+        [
             makeBuildCommand(
-                executablePath: try context.tool(named: "license-checker").path,
-                sourcePackagesPath: try sourcePackages(context.pluginWorkDirectory),
-                whiteListPath: context.xcodeProject.directory.appending(subpath: "white-list.json"),
-                outputPath: context.pluginWorkDirectory
+                executableURL: try context.tool(named: "license-checker").url,
+                sourcePackagesURL: try sourcePackages(context.pluginWorkDirectoryURL),
+                whiteListURL: context.xcodeProject.directoryURL.appending(path: "white-list.json"),
+                outputURL: context.pluginWorkDirectoryURL
             )
         ]
     }
