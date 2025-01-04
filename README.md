@@ -41,9 +41,9 @@ $
 
 ## Requirements
 
+- Development with Xcode 16.0+
 - Written in Swift 6.0
 - Compatible with macOS 14.0+
-- Development with Xcode 16.0+
 
 ## How to Use
 
