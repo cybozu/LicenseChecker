@@ -9,7 +9,7 @@ jobs:
     runs-on: macos-14
     timeout-minutes: 20
     env:
-      DEVELOPER_DIR: "/Applications/Xcode_16.0.app/Contents/Developer"
+      DEVELOPER_DIR: "/Applications/Xcode_16.app/Contents/Developer"
 
     steps:
       - name: Checkout
@@ -21,7 +21,7 @@ jobs:
       - name: Run Test
         run: |
           xcodebuild test \
-          -scheme LicenseChecker \
-          -destination "platform=macOS" \
-          -resultBundlePath TestsResult | \
-          xcpretty -c && exit ${PIPESTATUS[0]}
+            -scheme LicenseChecker \
+            -destination "platform=macOS" \
+            -resultBundlePath TestsResult | \
+            xcbeautify && exit ${PIPESTATUS[0]}
