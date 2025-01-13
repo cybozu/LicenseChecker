@@ -41,7 +41,7 @@ $
 
 ## Requirements
 
-- Development with Xcode 16.0+
+- Development with Xcode 16.2+
 - Written in Swift 6.0
 - Compatible with macOS 14.0+
 
