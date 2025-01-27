@@ -52,12 +52,12 @@ final class PackageParserTests: XCTestCase {
         XCTAssertEqual(sut, [expect])
     }
 
-    func test_extractLicense_apache_licence() throws {
+    func test_extractLicence_apache() throws {
         let jsonPath = "SourcePackagesUnknown/workspace-state"
         let jsonURL = try XCTUnwrap(testResources.getJsonUrl(jsonPath))
         let packageParser = try XCTUnwrap(PackageParser(url: jsonURL))
         let resourceURL = try XCTUnwrap(testResources.resourceURL)
-        let directoryURL = resourceURL.appendingPathComponent("SourcePackagesApache_LICENCE")
+        let directoryURL = resourceURL.appendingPathComponent("SourcePackagesLICENCE")
             .appendingPathComponent("checkouts")
             .appendingPathComponent("apache-package")
         let sut = packageParser.extractLicense(directoryURL: directoryURL)
@@ -96,13 +96,13 @@ final class PackageParserTests: XCTestCase {
         XCTAssertEqual(sut, [expect])
     }
 
-    func test_extractLicense_mit_licence() throws {
+    func test_extractLicence_mit() throws {
         let jsonPath = "SourcePackagesUnknown/workspace-state"
         let jsonURL = try XCTUnwrap(testResources.getJsonUrl(jsonPath))
         let packageParser = try XCTUnwrap(PackageParser(url: jsonURL))
 
         let resourceURL = try XCTUnwrap(testResources.resourceURL)
-        let directoryURL = resourceURL.appendingPathComponent("SourcePackagesMIT_LICENCE")
+        let directoryURL = resourceURL.appendingPathComponent("SourcePackagesLICENCE")
             .appendingPathComponent("checkouts")
             .appendingPathComponent("mit-package")
 
