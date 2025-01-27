@@ -21,8 +21,9 @@ public enum LicenseType: String {
         self = types.compactMap { key, value -> (LicenseType, String.Index)? in
             guard let range = value
                 .compactMap({ text.range(of: $0) })
-                .min(by: { $0.lowerBound < $1.lowerBound })
-            else { return nil }
+                .min(by: { $0.lowerBound < $1.lowerBound }) else {
+                return nil
+            }
             return (key, range.lowerBound)
         }
         .min(by: { $0.1 < $1.1 })?.0 ?? .unknown
