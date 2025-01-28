@@ -3,7 +3,7 @@ import TestResources
 @testable import LicenseCheckerModule
 
 struct PackageParserTests {
-    let testResources = TestResources()
+    private let testResources = TestResources()
 
     @Test("If workspace-state is normal, PackageParser initialization succeeds.")
     func init_PackageParser_success() async throws {
@@ -27,7 +27,7 @@ struct PackageParserTests {
         "The license file is successfully extracted.",
         arguments: [LicenseType.apache, .mit, .bsd, .zlib, .boringSSL]
     )
-    func extractLicense(_ licenseType: LicenseType) async throws {
+    func extract_license(_ licenseType: LicenseType) async throws {
         let jsonPath = "SourcePackagesUnknown/workspace-state"
         let jsonURL = try #require(testResources.getJsonUrl(jsonPath))
         let packageParser = try #require(PackageParser(url: jsonURL))
@@ -43,7 +43,7 @@ struct PackageParserTests {
         "The licence file is successfully extracted.",
         arguments: [LicenseType.apache, .mit]
     )
-    func extractLicence(_ licenseType: LicenseType) async throws {
+    func extract_licence(_ licenseType: LicenseType) async throws {
         let jsonPath = "SourcePackagesUnknown/workspace-state"
         let jsonURL = try #require(testResources.getJsonUrl(jsonPath))
         let packageParser = try #require(PackageParser(url: jsonURL))
@@ -59,7 +59,7 @@ struct PackageParserTests {
         "The license file is successfully parsed.",
         arguments: [LicenseType.apache, .mit, .bsd, .zlib, .boringSSL]
     )
-    func parseLicense(_ licenseType: LicenseType) async throws {
+    func parse_license(_ licenseType: LicenseType) async throws {
         let jsonPath = "\(licenseType.containerDirectoryName)/workspace-state"
         let jsonURL = try #require(testResources.getJsonUrl(jsonPath))
         let packageParser = try #require(PackageParser(url: jsonURL))
