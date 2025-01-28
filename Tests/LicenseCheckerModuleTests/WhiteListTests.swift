@@ -1,53 +1,42 @@
-import XCTest
-import TestResources
+import Foundation
+import Testing
 @testable import LicenseCheckerModule
 
-final class WhiteListTests: XCTestCase {
-
-    func getJsonUrl(_ jsonName: String) -> URL? {
-        return Bundle.module.url(forResource: jsonName, withExtension: "json")
+struct WhiteListTests {
+    private func getJsonUrl(_ jsonName: String) -> URL? {
+        Bundle.module.url(forResource: jsonName, withExtension: "json")
     }
-
-    func test_load_broken_white_list() throws {
-        let jsonURL = try XCTUnwrap(getJsonUrl("white-list-broken"))
-
-        let sut = WhiteList.load(url: jsonURL)
-        XCTAssertNil(sut)
+    
+    @Test("If the whitelist is broken, loading fails.")
+    func load_broken_white_list_failure() throws {
+        let jsonURL = try #require(getJsonUrl("white-list-broken"))
+        let actual = WhiteList.load(url: jsonURL)
+        #expect(actual == nil)
     }
-
-
-    func test_load_empty_white_list() throws {
-        let jsonURL = try XCTUnwrap(getJsonUrl("white-list-empty"))
-
-        let sut = WhiteList.load(url: jsonURL)
-        XCTAssertNotNil(sut)
-
-        let actual = try XCTUnwrap(sut)
-        XCTAssertNotNil(actual.licenses)
-        XCTAssertEqual(actual.licenses?.isEmpty, true)
-        XCTAssertNotNil(actual.libraries)
-        XCTAssertEqual(actual.libraries?.isEmpty, true)
+    
+    @Test("If the whitelist is empty, loading succeeds.")
+    func load_empty_white_list_success() throws {
+        let jsonURL = try #require(getJsonUrl("white-list-empty"))
+        let actual = try #require(WhiteList.load(url: jsonURL))
+        #expect(actual.licenses != nil)
+        #expect(actual.licenses?.isEmpty == true)
+        #expect(actual.libraries != nil)
+        #expect(actual.libraries?.isEmpty == true)
     }
-
-    func test_load_licenses() throws {
-        let jsonURL = try XCTUnwrap(getJsonUrl("white-list-one-license"))
-
-        let sut = WhiteList.load(url: jsonURL)
-        XCTAssertNotNil(sut)
-
-        let actual = try XCTUnwrap(sut)
-        XCTAssertEqual(actual.licenses, ["Apache"])
-        XCTAssertNil(actual.libraries)
+    
+    @Test("If the whitelist is normal and contains a license, loading it succeeds.")
+    func load_normal_white_list_with_license_success() throws {
+        let jsonURL = try #require(getJsonUrl("white-list-one-license"))
+        let actual = try #require(WhiteList.load(url: jsonURL))
+        #expect(actual.licenses == ["Apache"])
+        #expect(actual.libraries == nil)
     }
-
-    func test_load_libraries() throws {
-        let jsonURL = try XCTUnwrap(getJsonUrl("white-list-one-library"))
-
-        let sut = WhiteList.load(url: jsonURL)
-        XCTAssertNotNil(sut)
-
-        let actual = try XCTUnwrap(sut)
-        XCTAssertNil(actual.licenses)
-        XCTAssertEqual(actual.libraries, ["some-package"])
+    
+    @Test("If the whitelist is normal and contains a library, loading it succeeds.")
+    func load_normal_white_list_with_library_success() throws {
+        let jsonURL = try #require(getJsonUrl("white-list-one-library"))
+        let actual = try #require(WhiteList.load(url: jsonURL))
+        #expect(actual.licenses == nil)
+        #expect(actual.libraries == ["some-package"])
     }
 }
