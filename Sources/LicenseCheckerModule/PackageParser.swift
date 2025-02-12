@@ -23,7 +23,8 @@ public struct PackageParser {
                 return Acknowledgement(
                     libraryName: libraryName,
                     licenseType: licenseType,
-                    isForbidden: isForbidden
+                    isForbidden: isForbidden,
+                    location: dependency.packageRef.location
                 )
             }
             .sorted { $0.libraryName.lowercased() < $1.libraryName.lowercased() }
