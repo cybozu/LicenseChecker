@@ -166,10 +166,10 @@ If your project directory structure is special and you want to specify the path 
 3. Add a Run Script in BuildPhases
    ```shell
    SOURCE_PACKAGES_PATH=`echo ${BUILD_DIR%Build/*}SourcePackages`
-   xcrun --sdk macosx swift package --package-path ./RoadWarriorPackages \
-     --allow-writing-to-directory ${SRCROOT} \
-     license-checker -s ${SOURCE_PACKAGES_PATH} -w [Path to white-list.json]
+   xcrun --sdk macosx swift run --package-path ${SOURCE_PACKAGES_PATH}/checkouts/LicenseChecker --disable-sandbox license-checker -s ${SOURCE_PACKAGES_PATH} -w [Path to white-list.json]
    ```
+   
+If `white-list.json` can be found in the project, you should use `${SRCROOT}` for the path to it.
 
 ## license-checker (command help)
 
@@ -179,13 +179,16 @@ Building for debugging...
 Build complete! (0.10s)
 OVERVIEW: A tool to check license of swift package libraries.
 
-USAGE: license-checker --source-packages-path <source-packages-path> --white-list-path <white-list-path>
+USAGE: license-checker --source-packages-path <source-packages-path> --white-list-path <white-list-path> [--verbose] [--quiet] [--tab]
 
 OPTIONS:
   -s, --source-packages-path <source-packages-path>
                           Path to SourcePackages directory
   -w, --white-list-path <white-list-path>
                           Path to white-list.json
+  -v, --verbose           Enable verbose output
+  -q, --quiet             Only show forbidden licenses
+  -t, --tab               Enable tab-separated output
   --version               Show the version.
   -h, --help              Show help information.
 ```
