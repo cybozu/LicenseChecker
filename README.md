@@ -3,17 +3,16 @@
 LicenseChecker is a command line tool checking licenses of swift package libraries that your app depends on.  
 It can detect libraries that are not included in a whitelist specifying the license type or library name.
 
-[![Github issues](https://img.shields.io/github/issues/cybozu/LicenseChecker)](https://github.com/cybozu/LicenseChecker/issues)
 [![Github forks](https://img.shields.io/github/forks/cybozu/LicenseChecker)](https://github.com/cybozu/LicenseChecker/network/members)
 [![Github stars](https://img.shields.io/github/stars/cybozu/LicenseChecker)](https://github.com/cybozu/LicenseChecker/stargazers)
-[![Top language](https://img.shields.io/github/languages/top/cybozu/LicenseChecker)](https://github.com/cybozu/LicenseChecker/)
-[![Release](https://img.shields.io/github/v/release/cybozu/LicenseChecker)]()
-[![Github license](https://img.shields.io/github/license/cybozu/LicenseChecker)](https://github.com/cybozu/LicenseChecker/)
+[![Github issues](https://img.shields.io/github/issues/cybozu/LicenseChecker)](https://github.com/cybozu/LicenseChecker/issues)
+[![Github release](https://img.shields.io/github/v/release/cybozu/LicenseChecker)](https://github.com/cybozu/LicenseChecker/release)
+[![Github license](https://img.shields.io/github/license/cybozu/LicenseChecker)](https://github.com/cybozu/LicenseChecker/blob/main/LICENSE)
 
 **Execution Example**
 
 ```shell
-$ license-checker --source-packages-path ~/SourcePackages --white-list-path ~/white-list.json 
+$ license-checker --source-packages-path ~/SourcePackages --white-list-path ~/white-list.json
 ✔︎ abseil               Apache
 ✔︎ BoringSSL-GRPC       BoringSSL
 ✔︎ Firebase             Apache
@@ -143,15 +142,15 @@ If your project directory structure is special and you want to specify the path 
    ```swift
    import Foundation
    import PackagePlugin
-   
+
    @main
    struct LicenseCheckerCommand: CommandPlugin {
        func performCommand(context: PluginContext, arguments: [String]) async throws {
            let tool = try context.tool(named: "license-checker")
-   
+
            let process = try Process.run(tool.url, arguments: arguments)
            process.waitUntilExit()
-   
+
            guard process.terminationReason == .exit else {
                Diagnostics.error("Termination Other Than Exit")
                return
