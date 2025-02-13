@@ -80,7 +80,7 @@ LicenseChecker supports the following licenses:
 
 ### XcodeBuildToolPlugin (for Xcode Project)
 
-1. Put `white-list.json` to the project root.
+1. Put `white-list.json` to the project root (`white-list.json` is in the same location as `xcodeproj`).
 2. File > Add Package Dependencies…  
    <img src="Screenshots/add-package-dependencies.png" width="800px">
 3. Search `https://github.com/cybozu/LicenseChecker.git.`  
@@ -90,13 +90,13 @@ LicenseChecker supports the following licenses:
 
 ### BuildToolPlugin (for Swift Package Project)
 
-1. Put `white-list.json` to the package root.
+1. Put `white-list.json` to the package root (`white-list.json` is in the same location as `Package.swift`).
 
 2. Add the dependency of plugin to `Package.swift`.
 
    ```swift
    dependencies: [
-       .package(url: "https://github.com/cybozu/LicenseChecker.git", exact: "1.2.0")
+       .package(url: "https://github.com/cybozu/LicenseChecker.git", exact: "2.1.0")
    ],
    ```
 
@@ -123,13 +123,13 @@ If your project directory structure is special and you want to specify the path 
    targets: [
        .binaryTarget(
            name: "license-checker",
-           url: "https://github.com/cybozu/LicenseChecker/releases/download/1.2.0/license-checker-macos.artifactbundle.zip",
-           checksum: "4b3aacb1c2b2b91012db0b13680eba82f79a779c7271d086e12028901ada71b5"
+           url: "https://github.com/cybozu/LicenseChecker/releases/download/2.1.0/license-checker-macos.artifactbundle.zip",
+           checksum: "e11383d96a492599f3b6cd961899508c5c4bc3224353213c51aeb169f5f3e6a9"
        ),
        .plugin(
-           name: "LicenseCheckerCommand",
+           name: "LicenseCheckerPlugin",
            capability: .command(
-               intent: .custom(verb: "license-checker", description: "Run LicenseChecker"),
+               intent: .custom(verb: "license-checker", description: "Check Licenses."),
                permissions: []
            ),
            dependencies: ["license-checker"]
@@ -137,14 +137,14 @@ If your project directory structure is special and you want to specify the path 
    ]
    ```
 
-2. Code `Plugins/LicenseCheckerCommand/main.swift`.
+2. Code `Plugins/LicenseCheckerPlugin/main.swift`.
 
    ```swift
    import Foundation
    import PackagePlugin
 
    @main
-   struct LicenseCheckerCommand: CommandPlugin {
+   struct LicenseCheckerPlugin: CommandPlugin {
        func performCommand(context: PluginContext, arguments: [String]) async throws {
            let tool = try context.tool(named: "license-checker")
 
@@ -163,11 +163,12 @@ If your project directory structure is special and you want to specify the path 
    }
    ```
 
-3. Add a Run Script in BuildPhases
+3. Add a Run Script in BuildPhases.
+
    ```shell
    SOURCE_PACKAGES_PATH=`echo ${BUILD_DIR%Build/*}SourcePackages`
-   xcrun --sdk macosx swift package --package-path ./RoadWarriorPackages \
-     --allow-writing-to-directory ${SRCROOT} \
+   xcrun --sdk macosx \
+     swift package --package-path ./PluginPackages plugin --allow-writing-to-directory . \
      license-checker -s ${SOURCE_PACKAGES_PATH} -w [Path to white-list.json]
    ```
 
