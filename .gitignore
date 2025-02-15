@@ -10,6 +10,7 @@ DerivedData/
 /*.xcodeproj
 /.build
 /.swiftpm
+Package.resolved
 
 # Test
 TestResults/
