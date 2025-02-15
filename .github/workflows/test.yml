@@ -22,6 +22,7 @@ jobs:
         run: |
           xcodebuild test \
             -scheme LicenseChecker \
-            -destination "platform=macOS" \
-            -resultBundlePath TestsResult | \
+            -destination "platform=macOS,arch=arm64" \
+            -derivedDataPath DerivedData \
+            -resultBundlePath TestResults/result_bundle | \
             xcbeautify && exit ${PIPESTATUS[0]}
