@@ -7,14 +7,24 @@ struct LicenseCheckerPlugin: BuildToolPlugin {
         let description: String = "SourcePackages not found"
     }
 
-    func sourcePackages(_ pluginWorkDirectory: URL) throws -> URL {
-        var tmpURL = pluginWorkDirectory
-        guard pluginWorkDirectory.absoluteURL.path().contains("SourcePackages") else {
+    func existsSourcePackages(in url: URL) throws -> Bool {
+        guard url.isFileURL,
+              url.pathComponents.count > 1,
+              let isDirectory = try? url.resourceValues(forKeys: [.isDirectoryKey]).isDirectory else {
             throw SourcePackagesNotFoundError()
         }
-        while tmpURL.lastPathComponent != "SourcePackages" {
-            tmpURL = tmpURL.deletingLastPathComponent()
+        let existsSourcePackagesInDirectory = FileManager.default
+            .fileExists(atPath: url.appending(path: "SourcePackages").path())
+        return isDirectory && existsSourcePackagesInDirectory
+    }
+
+    func sourcePackages(_ pluginWorkDirectory: URL) throws -> URL {
+        var tmpURL = pluginWorkDirectory.absoluteURL
+
+        while try !existsSourcePackages(in: tmpURL) {
+            tmpURL.deleteLastPathComponent()
         }
+        tmpURL.append(path: "SourcePackages")
         return tmpURL
     }
 
