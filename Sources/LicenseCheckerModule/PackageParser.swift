@@ -47,6 +47,6 @@ public struct PackageParser {
         guard let licenseURL, let text = try? String(contentsOf: licenseURL) else {
             return .unknown
         }
-        return LicenseType(text: text.replace(of: #"(  +|\n)"#, with: " "))
+        return LicenseType(text: text.replacing(of: #"(  +|\n)"#, with: " "))
     }
 }
