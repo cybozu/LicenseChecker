@@ -40,8 +40,8 @@ $
 
 ## Requirements
 
-- Development with Xcode 16.2+
-- Written in Swift 6.0
+- Development with Xcode 16.4+
+- Written in Swift 6.1
 - Compatible with macOS 14.0+
 
 ## How to Use
@@ -96,7 +96,7 @@ LicenseChecker supports the following licenses:
 
    ```swift
    dependencies: [
-       .package(url: "https://github.com/cybozu/LicenseChecker.git", exact: "2.1.0")
+       .package(url: "https://github.com/cybozu/LicenseChecker.git", exact: "2.2.1")
    ],
    ```
 
