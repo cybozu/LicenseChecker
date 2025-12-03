@@ -49,7 +49,7 @@ $
 0. Prepare a white list (`white-list.json`).
 
 - Specify the type of license to approve.
-- Specify the name of library to approve (for private libraries).
+- Specify the repository name of library to approve (for private libraries).
 
 LicenseChecker supports the following licenses:
 
@@ -73,7 +73,7 @@ LicenseChecker supports the following licenses:
     "BoringSSL"
   ],
   "libraries": [
-    "PrivateLibrary-Hoge"
+    "private-library-hoge"
   ]
 }
 ```
