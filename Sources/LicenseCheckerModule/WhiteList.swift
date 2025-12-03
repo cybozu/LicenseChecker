@@ -17,8 +17,8 @@ public struct WhiteList: Decodable {
         self = whiteList
     }
 
-    public func contains(_ libraryName: String, licenseType: LicenseType) -> Bool {
-        if let libraries, libraries.contains(libraryName) {
+    public func contains(libraryID: String, licenseType: LicenseType) -> Bool {
+        if let libraries, libraries.contains(libraryID) {
             true
         } else if licenseType == .unknown {
             false
