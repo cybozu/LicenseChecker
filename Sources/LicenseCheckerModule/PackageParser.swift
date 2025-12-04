@@ -20,7 +20,7 @@ public struct PackageParser {
                 let libraryName = dependency.packageRef.name
                 let libraryID = dependency.packageRef.identity
                 let licenseType = extractLicense(directoryURL: directoryURL)
-                let isForbidden = !whiteList.contains(libraryID: libraryID, licenseType: licenseType)
+                let isForbidden = !(whiteList.contains(libraryID: libraryID) || whiteList.contains(licenseType: licenseType))
                 return Acknowledgement(
                     libraryName: libraryName,
                     licenseType: licenseType,
