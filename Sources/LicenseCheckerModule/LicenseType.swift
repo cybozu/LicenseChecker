@@ -1,4 +1,4 @@
-public enum LicenseType: String {
+enum LicenseType: String {
     case apache = "Apache"
     case mit = "MIT"
     case bsd = "BSD"
@@ -6,7 +6,7 @@ public enum LicenseType: String {
     case boringSSL = "BoringSSL"
     case unknown = "unknown"
 
-    public var lowercased: String {
+    var lowercased: String {
         rawValue.lowercased()
     }
 

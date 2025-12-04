@@ -1,5 +1,5 @@
-public struct Acknowledgement: Hashable {
-    public var libraryName: String
-    public var licenseType: LicenseType
-    public var isForbidden: Bool
+struct Acknowledgement: Hashable {
+    var libraryName: String
+    var licenseType: LicenseType
+    var isForbidden: Bool
 }

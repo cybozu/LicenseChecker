@@ -1,9 +1,9 @@
 import Foundation
 
-public struct PackageParser {
+struct PackageParser {
     private var workspaceState: WorkspaceState
 
-    public init?(url: URL) {
+    init?(url: URL) {
         guard let data = try? Data(contentsOf: url),
               let workspaceState = try? JSONDecoder().decode(WorkspaceState.self, from: data) else {
             return nil
@@ -11,7 +11,7 @@ public struct PackageParser {
         self.workspaceState = workspaceState
     }
 
-    public func parse(with checkoutsPath: String, whiteList: WhiteList) -> [Acknowledgement] {
+    func parse(with checkoutsPath: String, whiteList: WhiteList) -> [Acknowledgement] {
         workspaceState.object.dependencies
             .map { dependency in
                 let components = dependency.packageRef.location.components(separatedBy: "/")
@@ -30,7 +30,7 @@ public struct PackageParser {
             .sorted { $0.libraryName.lowercased() < $1.libraryName.lowercased() }
     }
 
-    public func extractLicense(directoryURL: URL) -> LicenseType {
+    func extractLicense(directoryURL: URL) -> LicenseType {
         let fm = FileManager.default
         let contents = (try? fm.contentsOfDirectory(atPath: directoryURL.absoluteURL.path())) ?? []
         let licenseURL = contents

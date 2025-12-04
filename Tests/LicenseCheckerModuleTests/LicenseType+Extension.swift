@@ -1,6 +1,6 @@
-import LicenseCheckerModule
+@testable import LicenseCheckerModule
 
-extension LicenseType: @unchecked Sendable {
+extension LicenseType {
     var containerDirectoryName: String {
         switch self {
         case .apache:

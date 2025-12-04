@@ -1,10 +1,10 @@
 import Foundation
 
-public struct WhiteList: Decodable {
+struct WhiteList: Decodable {
     var licenses: [String]?
     var libraries: [String]?
 
-    public init(licenses: [String]?, libraries: [String]?) {
+    init(licenses: [String]?, libraries: [String]?) {
         self.licenses = licenses
         self.libraries = libraries
     }
@@ -17,7 +17,7 @@ public struct WhiteList: Decodable {
         self = whiteList
     }
 
-    public func contains(libraryID: String) -> Bool {
+    func contains(libraryID: String) -> Bool {
         if let libraries {
             libraries.map({ $0.lowercased() }).contains(libraryID.lowercased())
         } else {
@@ -25,7 +25,7 @@ public struct WhiteList: Decodable {
         }
     }
 
-    public func contains(licenseType: LicenseType) -> Bool {
+    func contains(licenseType: LicenseType) -> Bool {
         if licenseType == .unknown {
             false
         } else if let licenses {
