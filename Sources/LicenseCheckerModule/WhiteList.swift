@@ -17,10 +17,16 @@ public struct WhiteList: Decodable {
         self = whiteList
     }
 
-    public func contains(libraryID: String, licenseType: LicenseType) -> Bool {
-        if let libraries, libraries.contains(libraryID) {
-            true
-        } else if licenseType == .unknown {
+    public func contains(libraryID: String) -> Bool {
+        if let libraries {
+            libraries.map({ $0.lowercased() }).contains(libraryID.lowercased())
+        } else {
+            false
+        }
+    }
+
+    public func contains(licenseType: LicenseType) -> Bool {
+        if licenseType == .unknown {
             false
         } else if let licenses {
             licenses.map({ $0.lowercased() }).contains(licenseType.lowercased)
